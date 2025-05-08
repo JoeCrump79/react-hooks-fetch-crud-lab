@@ -21,7 +21,7 @@ function useQuestions() {
     })
       .then((res) => res.json())
       .then((savedQuestion) => {
-        setQuestions([...questions, savedQuestion]);
+        setQuestions((prevQuestions) => [...prevQuestions, savedQuestion]);
       });
   }
 
@@ -29,7 +29,9 @@ function useQuestions() {
     fetch(`http://localhost:4000/questions/${id}`, {
       method: "DELETE",
     }).then(() => {
-      setQuestions(questions.filter((q) => q.id !== id));
+      setQuestions((prevQuestions) =>
+        prevQuestions.filter((q) => q.id !== id)
+      );
     });
   }
 
@@ -41,8 +43,8 @@ function useQuestions() {
     })
       .then((res) => res.json())
       .then((updatedQuestion) => {
-        setQuestions((questions) =>
-          questions.map((q) =>
+        setQuestions((prevQuestions) =>
+          prevQuestions.map((q) =>
             q.id === updatedQuestion.id ? updatedQuestion : q
           )
         );
